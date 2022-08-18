@@ -1,0 +1,25 @@
+---
+- name: Volumes which have capacity more than the threshold
+  hosts: localhost
+  connection: local
+  vars:
+    array_ip: "10.118.0.120"
+    user: "admin"
+    password: "Password1234#"
+    verifycert: "False"
+    vol_name: 'Ansible_'
+    threshold_size: enter_cap(in Bytes)
+  collections:
+  - dellemc.powerstore
+  tasks:
+    - name: Create multiple volumes
+      dellemc.powerstore.volume:
+        array_ip: "{{array_ip}}"
+        verifycert: "{{verifycert}}"
+        user: "{{user}}"
+        password: "{{password}}"
+        vol_name: "{{vol_name +'_' }}{{item}}"
+        size: 1
+        cap_unit: "GB"
+        state: 'present'
+      loop: "{{ range(1, 5 + 1, 1) | list }}"

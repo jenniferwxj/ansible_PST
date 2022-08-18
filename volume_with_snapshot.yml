@@ -1,0 +1,25 @@
+---
+- name: Create volumes with protection policy
+  hosts: localhost
+  connection: local
+  vars:
+    array_ip: "10.118.0.120"
+    user: "admin"
+    password: "Password1234#"
+    verifycert: "False"
+    vol_name: 'Ansible_'
+  collections:
+  - dellemc.powerstore
+  tasks:
+    - name: Create multiple volumes with a protection policy
+      dellemc.powerstore.volume:
+        array_ip: "{{array_ip}}"
+        verifycert: "{{verifycert}}"
+        user: "{{user}}"
+        password: "{{password}}"
+        vol_name: "{{vol_name +'_' }}{{item}}"
+        size: 1
+        cap_unit: "GB"
+        state: 'present'
+        protection_policy: "Ansible_policy1"
+      loop: "{{ range(6, 10 + 1, 1) | list }}"

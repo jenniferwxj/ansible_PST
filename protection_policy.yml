@@ -1,0 +1,24 @@
+---
+- name: Protection policy
+  hosts: localhost
+  connection: local
+  vars:
+    array_ip: "10.118.0.120"
+    user: "admin"
+    password: "Password1234#"
+    verifycert: "False"
+  collections:
+  - dellemc.powerstore
+  tasks:
+    - name: Create a protection policy with snapshot rule
+      dellemc_powerstore_protectionpolicy:
+        array_ip: "{{array_ip}}"
+        verifycert: "{{verifycert}}"
+        user: "{{user}}"
+        password: "{{password}}"        
+        name: Ansible_policy1
+        description: ansible_policy
+        snapshotrules:
+          - "Ansible_30_minute_rule"
+        snapshotrule_state: "present-in-policy"
+        state: "present"  

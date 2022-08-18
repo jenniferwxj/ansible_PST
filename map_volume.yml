@@ -1,0 +1,24 @@
+---
+- name: Map volume to host
+  hosts: localhost
+  connection: local
+  vars:
+    array_ip: "10.118.0.120"
+    user: "admin"
+    password: "Password1234#"
+    verifycert: "False"
+    vol_name: 'Ansible_'
+  collections:
+  - dellemc.powerstore
+  tasks:
+    - name: map volumes
+      dellemc.powerstore.volume:
+        array_ip: "{{array_ip}}"
+        verifycert: "{{verifycert}}"
+        user: "{{user}}"
+        password: "{{password}}"
+        vol_name: "{{vol_name +'_' }}{{item}}"
+        state: 'present'
+        mapping_state: 'mapped'
+        host: "Ansible_host"
+      loop: "{{ range(1, 5 + 1, 1) | list }}"

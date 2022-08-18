@@ -1,0 +1,23 @@
+---
+- name: Create host
+  hosts: localhost
+  connection: local
+  vars:
+    array_ip: "10.118.0.120"
+    user: "admin"
+    password: "Password1234#"
+    verifycert: "False"
+  collections:
+  - dellemc.powerstore
+  tasks:
+    - name: Create a host
+      dellemc.powerstore.host:
+        array_ip: "{{array_ip}}"
+        verifycert: "{{verifycert}}"
+        user: "{{user}}"
+        password: "{{password}}"
+        host_name: "Ansible_host"
+        os_type: 'Linux'
+        initiators: "iqn.1998-01.com.vmware:localhost:1521386401:64"
+        state: 'present'
+        initiator_state: 'present-in-host'

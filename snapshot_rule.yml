@@ -1,0 +1,28 @@
+---
+- name: Snapshot rules
+  hosts: localhost
+  connection: local
+  vars:
+    array_ip: "10.118.0.120"
+    user: "admin"
+    password: "Password1234#"
+    verifycert: "False"
+  collections:
+  - dellemc.powerstore
+  tasks:
+    - name: Create a snapshot rule
+      dellemc_powerstore_snapshotrule:
+        array_ip: "{{array_ip}}"
+        verifycert: "{{verifycert}}"
+        user: "{{user}}"
+        password: "{{password}}"
+        name: "Ansible_30_minute_rule"
+        days_of_week:
+         - Monday
+         - Tuesday
+         - Wednesday
+         - Thursday
+         - Friday
+        desired_retention: "24"
+        interval: "Thirty_Minutes"
+        state: "present"
